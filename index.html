@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Static Template</title>
+    <style>
+      picture {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        width: 100px;
+      }
+
+      picture.is-small {
+        width: 50px;
+      }
+
+      picture.is-large {
+        width: 200px;
+      }
+
+      img {
+        box-shadow: 0 0 15px #000;
+        border-radius: 50%;
+        width: 100%;
+      }
+      img.disabled {
+        opacity: 0.3;
+      }
+
+      i {
+        align-content: center;
+        align-items: center;
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        min-height: 50px;
+        display: block;
+        width: 100%;
+      }
+
+      div {
+        font-family: comic-sand;
+        font-size: 24px;
+      }
+    </style>
+    <script
+      src="https://unpkg.com/react@18/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  </head>
+  <body>
+    <h1>Boton Contador LOP</h1>
+    <div id="app">
+      <script type="text/babel">
+        const $app = document.getElementById("app");
+        let useState = React.useState;
+
+        const Avatar = ({ id, name = "LOP", size }) => {
+          const [enabled, setEnabled] = useState(true);
+
+          //if (!id)
+          //return <img src="https://randomuser.me/api/portraits/lego/0.jpg" />;
+
+          const src = `https://randomuser.me/api/portraits/women/${id}.jpg`;
+
+          let pictureClassName = "";
+          if (size === "small") {
+            pictureClassName = "is-small";
+          } else if (size === "large") {
+            pictureClassName = "is-large";
+          }
+          //const pictureClassName = props.size === "small" ? "is-small" : "";
+          const imgClassName = enabled ? "" : "disabled";
+
+          return (
+            <picture className={pictureClassName}>
+              {id ? (
+                <img
+                  onClick={() => setEnabled(!enabled)}
+                  className={imgClassName}
+                  src={src}
+                />
+              ) : (
+                <i>Sin Avatar</i>
+              )}
+              <strong>{enabled ? name : "Desactivada"}</strong>
+            </picture>
+          );
+        };
+
+        function Contador() {
+          const [contadorValue, actualizarContador] = useState(20);
+          /*
+          let contadorState = useState(10);
+          let contadorValue = contadorState[0];
+          let actualizarContador = contadorState[1];
+          */
+
+          return (
+            <div>
+              <span>{contadorValue}</span>
+              <button onClick={() => actualizarContador(contadorValue + 1)}>
+                Aumenta +
+              </button>
+              <button onClick={() => actualizarContador(contadorValue - 1)}>
+                Disminuye -
+              </button>
+            </div>
+          );
+        }
+
+        ReactDOM.render(
+          <div>
+            <Contador />
+            {/*
+            <Avatar name="Akira" />
+            <Avatar id={17} name="Esdeath" size="small" />
+            <Avatar id={12} name="Nesuko" />
+            <Avatar id={8} name="Hinata" size="large" />
+          */}
+          </div>,
+          $app
+        );
+
+        /*
+        $app.querySelectorAll("img").forEach((img) => {
+          img.addEventListener("click", () => {
+            img.classList.toggle("disabled");
+          });
+        });*/
+      </script>
+    </div>
+  </body>
+</html>
